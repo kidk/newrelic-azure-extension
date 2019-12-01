@@ -15,9 +15,17 @@ if ([Environment]::Is64BitProcess -ne [Environment]::Is64BitOperatingSystem)
 }
 Invoke-WebRequest -UseBasicParsing -uri $downloadUrl -outfile "newrelic-infra.msi"
 
+
 # Install
 write-host "Running installer"
-msiexec.exe /qn /i newrelic-infra.msi GENERATE_CONFIG=true LICENSE_KEY="$newrelicLicenseKey"
+$MSIArguments = @(
+    "/qn"
+    "/i"
+    "newrelic-infra.msi"
+    "LICENSE_KEY=$newrelicLicenseKey"
+)
+Start-Process "msiexec.exe" -ArgumentList $MSIArguments -Wait -NoNewWindow
+
 
 # Start service
 write-host "Starting service"
