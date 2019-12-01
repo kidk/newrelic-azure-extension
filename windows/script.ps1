@@ -16,9 +16,7 @@ if ([Environment]::Is64BitProcess -ne [Environment]::Is64BitOperatingSystem)
 Invoke-WebRequest -UseBasicParsing -uri $downloadUrl -outfile "newrelic-infra.msi"
 
 # Install
-msiexec.exe /qn /i ./newrelic-infra.msi GENERATE_CONFIG=true LICENSE_KEY=$newrelicLicenseKey
-
-# Maintain? Can we update automatically? Do we want to
+msiexec.exe /qn /i ./newrelic-infra.msi GENERATE_CONFIG=true LICENSE_KEY="$newrelicLicenseKey"
 
 # Start service
-start-service -name newrelic-infra
+net start newrelic-infra
