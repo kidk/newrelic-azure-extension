@@ -22,7 +22,8 @@ $MSIArguments = @(
     "/qn"
     "/i"
     "newrelic-infra.msi"
-    "LICENSE_KEY=$newrelicLicenseKey"
+    "GENERATE_CONFIG=true"
+    "LICENSE_KEY=`"" + $newrelicLicenseKey + "`""
 )
 Start-Process "msiexec.exe" -ArgumentList $MSIArguments -Wait -NoNewWindow
 
