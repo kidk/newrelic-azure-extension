@@ -1,6 +1,4 @@
-param (
-    [string]$newrelicLicenseKey
-)
+param ([Parameter(Mandatory=$true)]$newrelicLicenseKey)
 
 write-host "Installing New Relic Infrastucture"
 
@@ -19,7 +17,7 @@ Invoke-WebRequest -UseBasicParsing -uri $downloadUrl -outfile "newrelic-infra.ms
 
 # Install
 write-host "Running installer"
-msiexec.exe /qn /i ./newrelic-infra.msi GENERATE_CONFIG=true LICENSE_KEY="$newrelicLicenseKey"
+msiexec.exe /qn /i newrelic-infra.msi GENERATE_CONFIG=true LICENSE_KEY="$newrelicLicenseKey"
 
 # Start service
 write-host "Starting service"
