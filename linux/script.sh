@@ -61,3 +61,6 @@ Suse) # RPM
     sudo zypper -n install newrelic-infra
     ;;
 esac
+
+# All done
+exit 0
