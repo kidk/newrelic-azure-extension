@@ -19,8 +19,13 @@ else
     echo "license_key: $NR_LICENSE_KEY" | sudo tee -a /etc/newrelic-infra.yml
 fi
 
+# Install gnupg dependency on Debian
+if [ "$ID" = "debian"]; then
+    sudo apt-get install gnupg -y
+fi
+
 # Check if GPG key is installed
-if [ "$NAME" = "Debian" ] || [ "$NAME" = "Ubuntu" ]; then
+if [ "$ID" = "debian" ] || [ "$NAME" = "Ubuntu" ]; then
     curl https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | sudo apt-key add -
 fi
 if [ "$ID_LIKE" = "suse" ]; then
@@ -28,7 +33,7 @@ if [ "$ID_LIKE" = "suse" ]; then
 fi
 
 # Install repository file
-if [ "$NAME" = "Debian" ] || [ "$NAME" = "Ubuntu" ]; then
+if [ "$ID" = "debian" ] || [ "$NAME" = "Ubuntu" ]; then
     printf "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt $VERSION_CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
 fi
 if [ "$ID" = "centos" ] || [ "$ID" = 'rhel' ]; then
@@ -40,7 +45,7 @@ if [ "$ID_LIKE" = "suse" ]; then
 fi
 
 # Update local repo and install
-if [ "$NAME" = "Debian" ] || [ "$NAME" = "Ubuntu" ]; then
+if [ "$ID" = "debian" ] || [ "$NAME" = "Ubuntu" ]; then
     sudo apt-get update
     sudo apt-get install newrelic-infra -y
 fi
