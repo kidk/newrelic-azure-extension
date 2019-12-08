@@ -5,4 +5,4 @@ These instructions install New Relic infrastructure on Microsoft Azure VM's thro
 Please select your operating system
 
 * [Windows](windows/README.md)
-* Linux (soon)
+* [Linux](linux/README.md)
