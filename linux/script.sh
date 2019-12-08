@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
-
 set -e
-
-readonly OS_UNKNOWN=0
-readonly OS_UBUNTU=1
-readonly OS_DEBIAN=2
-readonly OS_SUSE=3
-
 
 # Check and set New Relic license key
 if [ $# -eq 0 ]; then
@@ -27,40 +20,38 @@ else
 fi
 
 # Check if GPG key is installed
-case "$NAME" in
-Ubuntu|Debian) # APT
-    # Running this command multiple times has no effect
+if [ "$NAME" = "Debian" ] || [ "$NAME" = "Ubuntu" ]; then
     curl https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | sudo apt-key add -
-    ;;
-Suse) # RPM
-    # Running this command multiple times has no effect
+fi
+if [ "$ID_LIKE" = "suse" ]; then
     sudo rpm --import https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg
-    ;;
-esac
+fi
 
 # Install repository file
-case "$NAME" in
-Ubuntu|Debian) # APT
+if [ "$NAME" = "Debian" ] || [ "$NAME" = "Ubuntu" ]; then
     printf "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt $VERSION_CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
-    ;;
-Suse) # RPM
-    # Running this command multiple times has no effect
-    sudo rpm --import https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg
-    ;;
-esac
+fi
+if [ "$ID" = "centos" ] || [ "$ID" = 'rhel' ]; then
+    sudo curl -o /etc/yum.repos.d/newrelic-infra.repo https://download.newrelic.com/infrastructure_agent/linux/yum/el/$VERSION_ID/x86_64/newrelic-infra.repo
+fi
+if [ "$ID_LIKE" = "suse" ]; then
+    . /etc/SuSE-release
+    sudo curl -o /etc/zypp/repos.d/newrelic-infra.repo https://download.newrelic.com/infrastructure_agent/linux/zypp/sles/$VERSION.$PATCHLEVEL/x86_64/newrelic-infra.repo
+fi
 
 # Update local repo and install
-case "$NAME" in
-Ubuntu|Debian) # APT
+if [ "$NAME" = "Debian" ] || [ "$NAME" = "Ubuntu" ]; then
     sudo apt-get update
     sudo apt-get install newrelic-infra -y
-    ;;
-Suse) # RPM
-    # Running this command multiple times has no effect
+fi
+if [ "$ID" = "centos" ] || [ "$ID" = 'rhel' ]; then
+    sudo yum -q makecache -y --disablerepo='*' --enablerepo='newrelic-infra'
+    sudo yum install newrelic-infra -y
+fi
+if [ "$ID_LIKE" = "suse" ]; then
     sudo zypper -n ref -r newrelic-infra
     sudo zypper -n install newrelic-infra
-    ;;
-esac
+fi
 
 # All done
 exit 0
