@@ -32,7 +32,7 @@ if [ "$NAME" = "Debian" ] || [ "$NAME" = "Ubuntu" ]; then
     printf "deb [arch=amd64] https://download.newrelic.com/infrastructure_agent/linux/apt $VERSION_CODENAME main" | sudo tee /etc/apt/sources.list.d/newrelic-infra.list
 fi
 if [ "$ID" = "centos" ] || [ "$ID" = 'rhel' ]; then
-    sudo curl -o /etc/yum.repos.d/newrelic-infra.repo https://download.newrelic.com/infrastructure_agent/linux/yum/el/$VERSION_ID/x86_64/newrelic-infra.repo
+    sudo curl -o /etc/yum.repos.d/newrelic-infra.repo https://download.newrelic.com/infrastructure_agent/linux/yum/el/${VERSION_ID%%.*}/x86_64/newrelic-infra.repo
 fi
 if [ "$ID_LIKE" = "suse" ]; then
     . /etc/SuSE-release
