@@ -20,7 +20,7 @@ else
 fi
 
 # Install gnupg dependency on Debian
-if [ "$ID" = "debian"]; then
+if [ "$ID" = "debian" ]; then
     sudo apt-get install gnupg -y
 fi
 
