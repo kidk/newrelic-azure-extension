@@ -24,7 +24,7 @@ Apply the extension
 az vm extension set \
   --resource-group myResourceGroup \
   --vm-name myVirtualMachineName \
-  --name newrelic-infra \
+  --name customScript \
   --publisher Microsoft.Azure.Extensions \
   --protected-settings '{"fileUris": ["https://raw.githubusercontent.com/kidk/newrelic-azure-extension/master/linux/script.sh"],"commandToExecute": "bash script.sh $newRelicLicenseKey"}'
 ```
