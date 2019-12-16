@@ -35,3 +35,8 @@ az vmss extension set \
   --publisher Microsoft.Azure.Extensions \
   --protected-settings '{"fileUris": ["https://raw.githubusercontent.com/kidk/newrelic-azure-extension/master/linux/script.sh"],"commandToExecute": "bash script.sh [NEWRELIC_LICENSE_KEY]"}'
 ```
+
+If `Upgrade mode` is set to `Manual` you need to update each machine in your ScaleSet. Each new machine will automatically install New Relic.
+```
+az vmss update-instances --resource-group myResourceGroup --name myVirtualMachineSetName --instance-ids 0
+```
