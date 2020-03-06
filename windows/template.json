@@ -1,0 +1,21 @@
+{
+    "type": "Microsoft.Compute/virtualMachines/extensions",
+    "apiVersion": "2018-06-01",
+    "name": "[concat(variables('vmName'),'/', 'newrelic-infra')]",
+    "location": "[parameters('location')]",
+    "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/',variables('vmName'))]"
+    ],
+    "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.9",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+            "fileUris": [
+                "https://raw.githubusercontent.com/kidk/newrelic-azure-extension/master/windows/script.ps1"
+            ],
+            "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File script.ps1 [NEWRELIC_LICENSE_KEY]"
+        }
+    }
+}
